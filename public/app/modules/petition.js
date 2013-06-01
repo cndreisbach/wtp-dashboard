@@ -133,7 +133,7 @@ function(app, moment){
             // Load the data.
             $.ajax({
                 url: url,
-                dataType: 'jsonp',
+                dataType: 'json',
                 data: params,
                 success: success
             });

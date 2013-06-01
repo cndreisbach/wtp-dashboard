@@ -35,14 +35,12 @@ function(app, Dashboard, Petition, Search, MapFIPS, Layout, _, Bootstrap) {
         },
 
         loadPetitions: function (offset) {
-            var endpoint = 'https://api.whitehouse.gov/v1/petitions.jsonp';
+            var endpoint = '/petitions.json';
 
             $('#spinner').fadeIn();
 
             Petition.load({
                 uri: endpoint,
-                offset: offset,
-                limit: 10,
                 callback: function () {
                     var petitions = Petition.get();
                     $('#petition-search').typeahead({
@@ -54,9 +52,11 @@ function(app, Dashboard, Petition, Search, MapFIPS, Layout, _, Bootstrap) {
             });
 
         },
+
         loader: function(offset){
 
         },
+
         dashboard: function(id) {
             var $container = $('<div class="dashboard">');
             $('#main').empty().append($container);
