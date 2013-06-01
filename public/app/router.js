@@ -2,14 +2,16 @@
 define([
     // Application.
     "app",
+    "modules/dashboard",
     "modules/petition",
     "modules/search",
+    "modules/mapFIPS",
     "backbone.layoutmanager",
     "underscore",
     "bootstrap-amd"
 ],
 
-function(app, Petition, Search, Layout, _, Bootstrap) {
+function(app, Dashboard, Petition, Search, MapFIPS, Layout, _, Bootstrap) {
 
     var petitions;
 
@@ -56,11 +58,16 @@ function(app, Petition, Search, Layout, _, Bootstrap) {
         },
 
         dashboard: function(id) {
+            var $container = $('<div class="dashboard">');
+            $('#main').empty().append($container);
             var petitions = Petition.get();
-            var dashboard = new Petition.Views.Dashboard({ model: petitions.get(id) });
-            $("#main").empty().append(dashboard.el);
-            dashboard.render();
-
+            var petition = petitions.get(id);
+            var dashboard = new Dashboard.Views.Dashboard({
+                el: $container
+            });
+            dashboard.registerPanel(Petition.Views.Panel, {model: petition});
+            dashboard.registerPanel(MapFIPS.Views.Panel, {id: petition.get('id')});
+            dashboard.registerPanel(Petition.Views.Progress, { model: petitions.get(id) });
         }
     });
     return Router;
